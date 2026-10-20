@@ -1,0 +1,13 @@
+name: Build & Push
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, reopened, synchronize]
+jobs:
+  build:
+    uses: blair-tech-works/shared-workflows/.github/workflows/docker-build.yml@main
+    with:
+      image-name: ffc-promo
+    secrets:
+      GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}

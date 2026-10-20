@@ -1,0 +1,18 @@
+name: Bump Version & Release
+on:
+  push:
+    branches: [main]
+jobs:
+  version:
+    uses: blair-tech-works/shared-workflows/.github/workflows/bump-version.yml@main
+    secrets:
+      BOT_ACCESS_TOKEN: ${{ secrets.BOT_ACCESS_TOKEN }}
+  build:
+    needs: version
+    if: needs.version.outputs.new_tag != ''
+    uses: blair-tech-works/shared-workflows/.github/workflows/docker-build.yml@main
+    with:
+      image-name: ffc-promo
+      tags: ${{ needs.version.outputs.new_tag }}, latest
+    secrets:
+      GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
