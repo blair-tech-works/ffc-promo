@@ -106,13 +106,13 @@ export default function HomePage() {
       {/* Hero */}
       <section className="relative h-screen min-h-[600px]">
         <Image
-          src="/images/hero-river.jpg"
-          alt="The Last Resort Lodge on the Little Salmon River"
+          src="/images/lodge-exterior.jpg"
+          alt="The Last Resort Lodge"
           fill
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
           <Image
             src="/images/logo.png"
@@ -172,8 +172,8 @@ export default function HomePage() {
           <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
             <div className="relative aspect-[4/3] rounded overflow-hidden">
               <Image
-                src="/images/lodge-exterior.jpg"
-                alt="The Last Resort Lodge exterior"
+                src="/images/hero-river.jpg"
+                alt="Little Salmon River at The Last Resort"
                 fill
                 className="object-cover"
               />
