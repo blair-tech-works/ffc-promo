@@ -1,102 +1,65 @@
 import Image from "next/image";
-import FishingMapLoader from "./FishingMapLoader";
 
-export const FISHING_SPOTS = [
+const FISHING_SPOTS = [
   {
     name: "Salmon River",
-    lat: 45.4211,
-    lng: -116.3156,
     type: "Steelhead, Chinook, Rainbow Trout",
-    desc: "Idaho's legendary 'River of No Return' — the longest free-flowing river in the lower 48. Access at Riggins, about 1 hour north. Prime steelhead water September through December. IDFG stocks 1.7M+ steelhead annually.",
-    stocked: true,
+    desc: "Idaho's legendary 'River of No Return' — the longest free-flowing river in the lower 48. Access at Riggins, about 1 hour north. Prime steelhead water September through December.",
   },
   {
     name: "Little Salmon River",
-    lat: 44.9749,
-    lng: -116.2982,
     type: "Steelhead, Rainbow Trout",
-    desc: "Flows right through the backyard of the lodge. Walk out the back door and wade in. 52 miles of highway-accessible water from New Meadows to Riggins. IDFG stocks catchable rainbow trout plus steelhead fingerlings.",
-    stocked: true,
+    desc: "Flows right through the backyard of the lodge. Walk out the back door and wade in. 52 miles of highway-accessible water from New Meadows to Riggins.",
   },
   {
     name: "Payette Lake",
-    lat: 44.9465,
-    lng: -116.0853,
     type: "Kokanee, Mackinaw, Rainbow Trout",
-    desc: "Nearly 5,000-acre alpine lake at McCall. Outstanding boat fishing for kokanee salmon and lake trout (mackinaw to 30+ lbs). IDFG stocks 5,000+ catchable rainbow trout plus 150,000+ kokanee fingerlings.",
-    stocked: true,
+    desc: "Nearly 5,000-acre alpine lake at McCall. Outstanding boat fishing for kokanee salmon and lake trout (mackinaw to 30+ lbs).",
   },
   {
     name: "North Fork Payette River",
-    lat: 44.9073,
-    lng: -116.119,
     type: "Rainbow Trout, Brook Trout",
-    desc: "Flows out of Payette Lake through McCall. Excellent wading water with easy access at multiple bridges. IDFG stocks 1,500+ rainbow trout across multiple sections each summer.",
-    stocked: true,
+    desc: "Flows out of Payette Lake through McCall. Excellent wading water with easy access at multiple bridges.",
   },
   {
     name: "South Fork Payette River",
-    lat: 44.82,
-    lng: -115.95,
-    type: "Rainbow Trout, Whitefish",
-    desc: "Below Payette Lake near Cascade. Great trout water with easy bank access. Rainbow trout, mountain whitefish, and occasional bull trout in scenic canyon setting.",
-    stocked: false,
+    type: "Rainbow Trout, Mountain Whitefish, Bull Trout",
+    desc: "Below Payette Lake near Cascade. Great trout water with easy bank access in a scenic canyon setting.",
   },
   {
     name: "Upper Payette Lake",
-    lat: 45.128,
-    lng: -116.0216,
     type: "Rainbow Trout, Cutthroat Trout",
-    desc: "400-acre lake 16 miles north of McCall on Warren Wagon Road. Quieter and more secluded than Payette Lake. IDFG stocks ~2,000 rainbow trout. Great for canoes and float tubes.",
-    stocked: true,
+    desc: "400-acre lake 16 miles north of McCall on Warren Wagon Road. Quieter and more secluded than Payette Lake. Great for canoes and float tubes.",
   },
   {
     name: "Brundage Reservoir",
-    lat: 45.0528,
-    lng: -116.1212,
     type: "Rainbow Trout, Cutthroat Trout",
-    desc: "High-country reservoir at 6,280 ft near Brundage Mountain. Surrounded by thick pine forest. Peaceful spot for bank fishing and float tubes. Periodically stocked by IDFG.",
-    stocked: true,
+    desc: "High-country reservoir at 6,280 ft near Brundage Mountain. Surrounded by thick pine forest. Peaceful spot for bank fishing and float tubes.",
   },
   {
     name: "Warm Lake",
-    lat: 44.6464,
-    lng: -115.6689,
     type: "Rainbow Trout",
-    desc: "Very popular lake 26 miles east of Cascade. IDFG stocks 17,000 rainbow trout annually — one of the most heavily stocked lakes in the region. Great camping and boating.",
-    stocked: true,
+    desc: "Popular lake 26 miles east of Cascade. Great camping, boating, and consistent rainbow trout fishing year-round.",
   },
   {
     name: "Little Payette Lake",
-    lat: 44.9035,
-    lng: -116.0415,
     type: "Smallmouth Bass, Tiger Musky",
-    desc: "Just south of Payette Lake. Home of the world-record tiger musky (52+ inches, 44 lbs). Best smallmouth bass fishing mid-to-late June during spawning.",
-    stocked: true,
+    desc: "Just south of Payette Lake. Home of the world-record tiger musky (52+ inches, 44 lbs). Best smallmouth bass fishing mid-to-late June.",
   },
   {
     name: "Lake Cascade",
-    lat: 44.599,
-    lng: -116.0988,
-    type: "Rainbow Trout, Perch, Kokanee",
-    desc: "Massive 28,300-acre reservoir near Cascade, 30 minutes south of McCall. 50 miles of shoreline. IDFG stocks rainbow trout and kokanee. Also jumbo yellow perch and smallmouth bass.",
-    stocked: true,
+    type: "Rainbow Trout, Yellow Perch, Kokanee, Smallmouth Bass",
+    desc: "Massive 28,300-acre reservoir near Cascade, 30 minutes south of McCall. 50 miles of shoreline with jumbo yellow perch and quality trout fishing.",
   },
   {
     name: "Horsethief Reservoir",
-    lat: 44.511,
-    lng: -115.9158,
     type: "Rainbow Trout, Brown Trout, Kokanee",
-    desc: "No-wake reservoir south of McCall at 5,055 ft. Outstanding trout fishing — regularly stocked with rainbow trout and kokanee. Campgrounds at Kings Point.",
-    stocked: true,
+    desc: "No-wake reservoir south of McCall at 5,055 ft. Outstanding trout fishing in a quiet setting. Campgrounds at Kings Point.",
   },
   {
     name: "Lost Valley Reservoir",
-    lat: 44.9654,
-    lng: -116.4634,
     type: "Rainbow Trout, Brook Trout",
-    desc: "About 10 miles southwest of New Meadows. Fish grow well over winter — spring fishing yields especially large holdover rainbows. IDFG stocked.",
-    stocked: true,
+    desc: "About 10 miles southwest of New Meadows. Fish grow well over winter — spring fishing yields especially large holdover rainbows.",
   },
 ];
 
@@ -125,7 +88,7 @@ export default function HomePage() {
             className="text-sm tracking-[0.3em] uppercase mb-4"
             style={{ color: "#c6c5b3", fontFamily: "var(--font-sans)" }}
           >
-            Flathead Fly Casters &mdash; Exclusive Donation
+            Fly Fishing Collaborative &mdash; Exclusive Donation
           </p>
           <h1 className="text-white text-4xl md:text-6xl lg:text-7xl mb-6 max-w-4xl" style={{ textShadow: "0 2px 20px rgba(0,0,0,0.5)" }}>
             Three Nights on Idaho&rsquo;s <em>Finest</em> Water
@@ -295,13 +258,21 @@ export default function HomePage() {
             <p className="max-w-2xl mx-auto text-lg" style={{ color: "var(--text-body)" }}>
               The Last Resort sits at the crossroads of Idaho&rsquo;s finest
               fisheries. From steelhead on the Salmon River to kokanee on Payette
-              Lake, the options are endless &mdash; and most are stocked by Idaho
-              Fish &amp; Game.
+              Lake, the opportunities are endless.
             </p>
           </div>
 
           <div className="rounded overflow-hidden shadow-lg" style={{ height: "500px", border: "1px solid var(--stone)" }}>
-            <FishingMapLoader spots={FISHING_SPOTS} />
+            <iframe
+              src="https://www.google.com/maps?q=The+Last+Resort,+5538+Highway+95,+New+Meadows,+ID&z=9&output=embed"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="The Last Resort and surrounding fishing areas"
+            />
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
@@ -311,23 +282,7 @@ export default function HomePage() {
                 className="p-6 rounded"
                 style={{ background: "white", border: "1px solid var(--stone)" }}
               >
-                <div className="flex items-start justify-between mb-2">
-                  <h4 className="text-lg">{spot.name}</h4>
-                  {spot.stocked && (
-                    <span
-                      className="text-xs px-2 py-1 rounded-full flex-shrink-0 ml-2"
-                      style={{
-                        background: "var(--stone)",
-                        color: "var(--accent-dark)",
-                        fontFamily: "var(--font-sans)",
-                        fontWeight: 700,
-                        letterSpacing: "0.05em",
-                      }}
-                    >
-                      IDFG Stocked
-                    </span>
-                  )}
-                </div>
+                <h4 className="text-lg mb-2">{spot.name}</h4>
                 <p
                   className="text-xs uppercase tracking-wider mb-3"
                   style={{ color: "var(--accent-dark)", fontFamily: "var(--font-sans)" }}
@@ -388,7 +343,7 @@ export default function HomePage() {
           <a href="mailto:book@flyfishidaho.us" className="hover:text-white transition-colors">book@flyfishidaho.us</a>
         </p>
         <p className="text-xs" style={{ fontFamily: "var(--font-sans)", color: "rgba(255,255,255,0.3)" }}>
-          Flathead Fly Casters Donation &mdash; Valid January 1 &ndash; December 31, 2027
+          Fly Fishing Collaborative Donation &mdash; Valid January 1 &ndash; December 31, 2027
         </p>
       </footer>
     </main>
