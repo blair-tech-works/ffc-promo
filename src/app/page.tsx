@@ -115,14 +115,14 @@ export default function HomePage() {
             />
             <p
               className="text-sm tracking-[0.3em] uppercase mb-4"
-              style={{ color: "#c6c5b3", fontFamily: "var(--font-sans)" }}
+              style={{ color: "#e0e0e0", fontFamily: "var(--font-sans)" }}
             >
               Fly Fishing Collaborative &mdash; Exclusive Donation
             </p>
-            <h1 className="text-white text-4xl md:text-6xl lg:text-7xl mb-6">
+            <h1 className="text-white text-4xl md:text-6xl lg:text-7xl mb-6 font-semibold" style={{ textShadow: "0 2px 12px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.9)" }}>
               Three Nights on Idaho&rsquo;s <em>Finest</em> Water
             </h1>
-            <p className="text-white/80 text-lg md:text-xl max-w-2xl mx-auto mb-10" style={{ fontFamily: "var(--font-sans)" }}>
+            <p className="text-white text-lg md:text-xl max-w-2xl mx-auto mb-10" style={{ fontFamily: "var(--font-sans)" }}>
               A donated 3-night lodge stay at The Last Resort in New Meadows, Idaho
               &mdash; gateway to world-class DIY fishing on the Salmon River,
               Little Salmon, Payette Lake, and beyond.
