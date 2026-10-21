@@ -10,7 +10,6 @@ interface Spot {
   lng: number;
   type: string;
   desc: string;
-  stocked: boolean;
 }
 
 const lodgeIcon = new L.DivIcon({
@@ -38,22 +37,7 @@ const spotIcon = new L.DivIcon({
   popupAnchor: [0, -24],
 });
 
-const stockedIcon = new L.DivIcon({
-  html: `<div style="
-    width:24px;height:24px;border-radius:50%;
-    background:#3a6b50;border:2px solid white;
-    box-shadow:0 2px 6px rgba(0,0,0,0.3);
-  "></div>`,
-  className: "",
-  iconSize: [24, 24],
-  iconAnchor: [12, 24],
-  popupAnchor: [0, -24],
-});
-
 export default function FishingMap({ spots }: { spots: Spot[] }) {
-  const lodgeLat = 44.965;
-  const lodgeLng = -116.285;
-
   return (
     <MapContainer
       center={[44.85, -116.05]}
@@ -69,7 +53,7 @@ export default function FishingMap({ spots }: { spots: Spot[] }) {
         url="https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png"
       />
 
-      <Marker position={[lodgeLat, lodgeLng]} icon={lodgeIcon}>
+      <Marker position={[44.965, -116.285]} icon={lodgeIcon}>
         <Popup>
           <div style={{ fontFamily: "var(--font-sans)", minWidth: 180 }}>
             <strong style={{ fontSize: 14 }}>The Last Resort Lodge</strong>
@@ -85,20 +69,11 @@ export default function FishingMap({ spots }: { spots: Spot[] }) {
         <Marker
           key={spot.name}
           position={[spot.lat, spot.lng]}
-          icon={spot.stocked ? stockedIcon : spotIcon}
+          icon={spotIcon}
         >
           <Popup>
             <div style={{ fontFamily: "var(--font-sans)", minWidth: 200, maxWidth: 280 }}>
               <strong style={{ fontSize: 14 }}>{spot.name}</strong>
-              {spot.stocked && (
-                <span style={{
-                  fontSize: 10, marginLeft: 6,
-                  background: "#e8e4dd", padding: "2px 6px",
-                  borderRadius: 10, color: "#5a7a6a", fontWeight: 700,
-                }}>
-                  IDFG
-                </span>
-              )}
               <br />
               <span style={{ fontSize: 11, color: "#8a8770", textTransform: "uppercase", letterSpacing: "0.05em" }}>
                 {spot.type}

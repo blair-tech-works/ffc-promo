@@ -1,63 +1,88 @@
 import Image from "next/image";
+import FishingMapLoader from "./FishingMapLoader";
 
 const FISHING_SPOTS = [
   {
     name: "Salmon River",
+    lat: 45.4211,
+    lng: -116.3156,
     type: "Steelhead, Chinook, Rainbow Trout",
     desc: "Idaho's legendary 'River of No Return' — the longest free-flowing river in the lower 48. Access at Riggins, about 1 hour north. Prime steelhead water September through December.",
   },
   {
     name: "Little Salmon River",
+    lat: 44.9749,
+    lng: -116.2982,
     type: "Steelhead, Rainbow Trout",
     desc: "Flows right through the backyard of the lodge. Walk out the back door and wade in. 52 miles of highway-accessible water from New Meadows to Riggins.",
   },
   {
     name: "Payette Lake",
+    lat: 44.9465,
+    lng: -116.0853,
     type: "Kokanee, Mackinaw, Rainbow Trout",
     desc: "Nearly 5,000-acre alpine lake at McCall. Outstanding boat fishing for kokanee salmon and lake trout (mackinaw to 30+ lbs).",
   },
   {
     name: "North Fork Payette River",
+    lat: 44.9073,
+    lng: -116.119,
     type: "Rainbow Trout, Brook Trout",
     desc: "Flows out of Payette Lake through McCall. Excellent wading water with easy access at multiple bridges.",
   },
   {
     name: "South Fork Payette River",
+    lat: 44.82,
+    lng: -115.95,
     type: "Rainbow Trout, Mountain Whitefish, Bull Trout",
     desc: "Below Payette Lake near Cascade. Great trout water with easy bank access in a scenic canyon setting.",
   },
   {
     name: "Upper Payette Lake",
+    lat: 45.128,
+    lng: -116.0216,
     type: "Rainbow Trout, Cutthroat Trout",
     desc: "400-acre lake 16 miles north of McCall on Warren Wagon Road. Quieter and more secluded than Payette Lake. Great for canoes and float tubes.",
   },
   {
     name: "Brundage Reservoir",
+    lat: 45.0528,
+    lng: -116.1212,
     type: "Rainbow Trout, Cutthroat Trout",
     desc: "High-country reservoir at 6,280 ft near Brundage Mountain. Surrounded by thick pine forest. Peaceful spot for bank fishing and float tubes.",
   },
   {
     name: "Warm Lake",
+    lat: 44.6464,
+    lng: -115.6689,
     type: "Rainbow Trout",
     desc: "Popular lake 26 miles east of Cascade. Great camping, boating, and consistent rainbow trout fishing year-round.",
   },
   {
     name: "Little Payette Lake",
+    lat: 44.9035,
+    lng: -116.0415,
     type: "Smallmouth Bass, Tiger Musky",
     desc: "Just south of Payette Lake. Home of the world-record tiger musky (52+ inches, 44 lbs). Best smallmouth bass fishing mid-to-late June.",
   },
   {
     name: "Lake Cascade",
+    lat: 44.599,
+    lng: -116.0988,
     type: "Rainbow Trout, Yellow Perch, Kokanee, Smallmouth Bass",
     desc: "Massive 28,300-acre reservoir near Cascade, 30 minutes south of McCall. 50 miles of shoreline with jumbo yellow perch and quality trout fishing.",
   },
   {
     name: "Horsethief Reservoir",
+    lat: 44.511,
+    lng: -115.9158,
     type: "Rainbow Trout, Brown Trout, Kokanee",
     desc: "No-wake reservoir south of McCall at 5,055 ft. Outstanding trout fishing in a quiet setting. Campgrounds at Kings Point.",
   },
   {
     name: "Lost Valley Reservoir",
+    lat: 44.9654,
+    lng: -116.4634,
     type: "Rainbow Trout, Brook Trout",
     desc: "About 10 miles southwest of New Meadows. Fish grow well over winter — spring fishing yields especially large holdover rainbows.",
   },
@@ -263,16 +288,7 @@ export default function HomePage() {
           </div>
 
           <div className="rounded overflow-hidden shadow-lg" style={{ height: "500px", border: "1px solid var(--stone)" }}>
-            <iframe
-              src="https://www.google.com/maps?q=The+Last+Resort,+5538+Highway+95,+New+Meadows,+ID&z=9&output=embed"
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="The Last Resort and surrounding fishing areas"
-            />
+            <FishingMapLoader spots={FISHING_SPOTS} />
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">

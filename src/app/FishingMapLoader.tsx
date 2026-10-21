@@ -10,7 +10,6 @@ interface Spot {
   lng: number;
   type: string;
   desc: string;
-  stocked: boolean;
 }
 
 export default function FishingMapLoader({ spots }: { spots: Spot[] }) {
