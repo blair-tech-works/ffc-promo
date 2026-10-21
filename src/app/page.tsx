@@ -106,13 +106,13 @@ export default function HomePage() {
       {/* Hero */}
       <section className="relative h-screen min-h-[600px]">
         <Image
-          src="/images/lodge-exterior.jpg"
-          alt="The Last Resort Lodge"
+          src="/images/little-salmon-canyon.jpg"
+          alt="Little Salmon River canyon overlook"
           fill
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/25 to-black/50" />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
           <Image
             src="/images/logo.png"
@@ -127,7 +127,7 @@ export default function HomePage() {
           >
             Flathead Fly Casters &mdash; Exclusive Donation
           </p>
-          <h1 className="text-white text-4xl md:text-6xl lg:text-7xl mb-6 max-w-4xl">
+          <h1 className="text-white text-4xl md:text-6xl lg:text-7xl mb-6 max-w-4xl" style={{ textShadow: "0 2px 20px rgba(0,0,0,0.5)" }}>
             Three Nights on Idaho&rsquo;s <em>Finest</em> Water
           </h1>
           <p className="text-white/80 text-lg md:text-xl max-w-2xl mb-10" style={{ fontFamily: "var(--font-sans)" }}>
@@ -172,8 +172,8 @@ export default function HomePage() {
           <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
             <div className="relative aspect-[4/3] rounded overflow-hidden">
               <Image
-                src="/images/hero-river.jpg"
-                alt="Little Salmon River at The Last Resort"
+                src="/images/lodge-exterior.jpg"
+                alt="The Last Resort Lodge exterior"
                 fill
                 className="object-cover"
               />
@@ -270,10 +270,10 @@ export default function HomePage() {
       <section>
         <div className="grid grid-cols-3 gap-1">
           <div className="relative aspect-[4/3]">
-            <Image src="/images/backyard.jpg" alt="Lodge backyard on the Little Salmon River" fill className="object-cover" />
+            <Image src="/images/backyard.jpg" alt="Lodge room at The Last Resort" fill className="object-cover" />
           </div>
           <div className="relative aspect-[4/3]">
-            <Image src="/images/little-salmon-canyon.jpg" alt="Little Salmon River canyon" fill className="object-cover" />
+            <Image src="/images/lodge-exterior.jpg" alt="The Last Resort Lodge exterior" fill className="object-cover" />
           </div>
           <div className="relative aspect-[4/3]">
             <Image src="/images/fishing.jpg" alt="Fishing at The Last Resort" fill className="object-cover" />
