@@ -119,18 +119,18 @@ export default function HomePage() {
             >
               Fly Fishing Collaborative &mdash; Exclusive Donation
             </p>
-            <h1 className="text-white text-4xl md:text-6xl lg:text-7xl mb-6 font-semibold" style={{ textShadow: "0 2px 12px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.9)" }}>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl mb-6 font-semibold" style={{ color: "#ffffff", textShadow: "0 2px 12px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.9)" }}>
               Three Nights on Idaho&rsquo;s <em>Finest</em> Water
             </h1>
-            <p className="text-white text-lg md:text-xl max-w-2xl mx-auto mb-10" style={{ fontFamily: "var(--font-sans)" }}>
+            <p className="text-lg md:text-xl max-w-2xl mx-auto mb-10" style={{ color: "#ffffff", fontFamily: "var(--font-sans)" }}>
               A donated 3-night lodge stay at The Last Resort in New Meadows, Idaho
               &mdash; gateway to world-class DIY fishing on the Salmon River,
               Little Salmon, Payette Lake, and beyond.
             </p>
             <a
               href="#details"
-              className="inline-block px-8 py-3 border border-white/60 text-white text-sm tracking-[0.2em] uppercase transition-all hover:bg-white hover:text-black"
-              style={{ fontFamily: "var(--font-sans)" }}
+              className="inline-block px-8 py-3 border text-sm tracking-[0.2em] uppercase transition-all hover:bg-white hover:text-black"
+              style={{ color: "#ffffff", borderColor: "rgba(255,255,255,0.6)", fontFamily: "var(--font-sans)" }}
             >
               View Details
             </a>
