@@ -118,7 +118,7 @@ export default function HomePage() {
               className="text-sm tracking-[0.3em] uppercase mb-4"
               style={{ color: "#e0e0e0", fontFamily: "var(--font-sans)" }}
             >
-              Fly Fishing Collaborative &mdash; Exclusive Donation
+              Fish Well Do Good &mdash; Exclusive Donation
             </p>
             <h1 className="text-4xl md:text-6xl lg:text-7xl mb-6 font-semibold" style={{ color: "#ffffff", textShadow: "0 2px 12px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.9)" }}>
               Three Nights on Idaho&rsquo;s <em>Finest</em> Water
@@ -364,7 +364,7 @@ export default function HomePage() {
           <a href="mailto:book@flyfishidaho.us" className="hover:text-white transition-colors">book@flyfishidaho.us</a>
         </p>
         <p className="text-xs" style={{ fontFamily: "var(--font-sans)", color: "rgba(255,255,255,0.3)" }}>
-          Fly Fishing Collaborative Donation &mdash; Valid January 1 &ndash; December 31, 2027
+          Fish Well Do Good Donation &mdash; Valid January 1 &ndash; December 31, 2027
         </p>
       </footer>
     </main>
