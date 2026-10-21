@@ -40,7 +40,7 @@ const spotIcon = new L.DivIcon({
 export default function FishingMap({ spots }: { spots: Spot[] }) {
   return (
     <MapContainer
-      center={[44.85, -116.05]}
+      center={[44.9, -116.1]}
       zoom={9}
       style={{ height: "100%", width: "100%" }}
       scrollWheelZoom={false}
@@ -51,7 +51,7 @@ export default function FishingMap({ spots }: { spots: Spot[] }) {
         className="grayscale-tiles"
       />
 
-      <Marker position={[44.965, -116.285]} icon={lodgeIcon}>
+      <Marker position={[45.244861, -116.330996]} icon={lodgeIcon}>
         <Popup>
           <div style={{ fontFamily: "var(--font-sans)", minWidth: 180 }}>
             <strong style={{ fontSize: 14 }}>The Last Resort Lodge</strong>

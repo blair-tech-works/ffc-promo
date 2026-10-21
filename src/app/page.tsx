@@ -1,5 +1,6 @@
 import Image from "next/image";
 import FishingMapLoader from "./FishingMapLoader";
+import PhotoCarousel from "./PhotoCarousel";
 
 const FISHING_SPOTS = [
   {
@@ -259,19 +260,18 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Lodge Gallery Strip */}
-      <section>
-        <div className="grid grid-cols-3 gap-1">
-          <div className="relative aspect-[4/3]">
-            <Image src="/images/dining.jpg" alt="Lodge dining room" fill className="object-cover" />
-          </div>
-          <div className="relative aspect-[4/3]">
-            <Image src="/images/kitchen.jpg" alt="Lodge kitchen" fill className="object-cover" />
-          </div>
-          <div className="relative aspect-[4/3]">
-            <Image src="/images/den.jpg" alt="Lodge trophy room" fill className="object-cover" />
-          </div>
+      {/* Lodge Photo Gallery */}
+      <section className="py-24 px-6">
+        <div className="text-center mb-12">
+          <p
+            className="text-sm tracking-[0.3em] uppercase mb-4"
+            style={{ color: "var(--accent-dark)", fontFamily: "var(--font-sans)" }}
+          >
+            The Lodge
+          </p>
+          <h2 className="text-3xl md:text-5xl mb-6">Take a Look Inside</h2>
         </div>
+        <PhotoCarousel />
       </section>
 
       {/* Fishing Map */}
