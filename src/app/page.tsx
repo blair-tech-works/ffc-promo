@@ -102,34 +102,39 @@ export default function HomePage() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/25 to-black/50" />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
-          <Image
-            src="/images/logo.png"
-            alt="The Last Resort"
-            width={280}
-            height={80}
-            className="mb-8 brightness-0 invert opacity-90"
-          />
-          <p
-            className="text-sm tracking-[0.3em] uppercase mb-4"
-            style={{ color: "#c6c5b3", fontFamily: "var(--font-sans)" }}
+          <div
+            className="rounded-xl px-10 py-12 max-w-3xl"
+            style={{ background: "rgba(0,0,0,0.55)", backdropFilter: "blur(8px)" }}
           >
-            Fly Fishing Collaborative &mdash; Exclusive Donation
-          </p>
-          <h1 className="text-white text-4xl md:text-6xl lg:text-7xl mb-6 max-w-4xl" style={{ textShadow: "0 2px 20px rgba(0,0,0,0.5)" }}>
-            Three Nights on Idaho&rsquo;s <em>Finest</em> Water
-          </h1>
-          <p className="text-white/80 text-lg md:text-xl max-w-2xl mb-10" style={{ fontFamily: "var(--font-sans)" }}>
-            A donated 3-night lodge stay at The Last Resort in New Meadows, Idaho
-            &mdash; gateway to world-class DIY fishing on the Salmon River,
-            Little Salmon, Payette Lake, and beyond.
-          </p>
-          <a
-            href="#details"
-            className="inline-block px-8 py-3 border border-white/60 text-white text-sm tracking-[0.2em] uppercase transition-all hover:bg-white hover:text-black"
-            style={{ fontFamily: "var(--font-sans)" }}
-          >
-            View Details
-          </a>
+            <Image
+              src="/images/logo.png"
+              alt="The Last Resort"
+              width={280}
+              height={80}
+              className="mx-auto mb-8 brightness-0 invert opacity-90"
+            />
+            <p
+              className="text-sm tracking-[0.3em] uppercase mb-4"
+              style={{ color: "#c6c5b3", fontFamily: "var(--font-sans)" }}
+            >
+              Fly Fishing Collaborative &mdash; Exclusive Donation
+            </p>
+            <h1 className="text-white text-4xl md:text-6xl lg:text-7xl mb-6">
+              Three Nights on Idaho&rsquo;s <em>Finest</em> Water
+            </h1>
+            <p className="text-white/80 text-lg md:text-xl max-w-2xl mx-auto mb-10" style={{ fontFamily: "var(--font-sans)" }}>
+              A donated 3-night lodge stay at The Last Resort in New Meadows, Idaho
+              &mdash; gateway to world-class DIY fishing on the Salmon River,
+              Little Salmon, Payette Lake, and beyond.
+            </p>
+            <a
+              href="#details"
+              className="inline-block px-8 py-3 border border-white/60 text-white text-sm tracking-[0.2em] uppercase transition-all hover:bg-white hover:text-black"
+              style={{ fontFamily: "var(--font-sans)" }}
+            >
+              View Details
+            </a>
+          </div>
         </div>
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
@@ -160,8 +165,8 @@ export default function HomePage() {
           <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
             <div className="relative aspect-[4/3] rounded overflow-hidden">
               <Image
-                src="/images/lodge-exterior.jpg"
-                alt="The Last Resort Lodge exterior"
+                src="/images/lodge-summer.jpg"
+                alt="The Last Resort Lodge"
                 fill
                 className="object-cover"
               />
@@ -258,13 +263,13 @@ export default function HomePage() {
       <section>
         <div className="grid grid-cols-3 gap-1">
           <div className="relative aspect-[4/3]">
-            <Image src="/images/backyard.jpg" alt="Lodge room at The Last Resort" fill className="object-cover" />
+            <Image src="/images/dining.jpg" alt="Lodge dining room" fill className="object-cover" />
           </div>
           <div className="relative aspect-[4/3]">
-            <Image src="/images/lodge-exterior.jpg" alt="The Last Resort Lodge exterior" fill className="object-cover" />
+            <Image src="/images/kitchen.jpg" alt="Lodge kitchen" fill className="object-cover" />
           </div>
           <div className="relative aspect-[4/3]">
-            <Image src="/images/fishing.jpg" alt="Fishing at The Last Resort" fill className="object-cover" />
+            <Image src="/images/den.jpg" alt="Lodge trophy room" fill className="object-cover" />
           </div>
         </div>
       </section>
