@@ -2,6 +2,7 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import SignaturePad from "./SignaturePad";
+import Brand from "./Brand";
 import {
   SECTIONS,
   ROOM_TEMPLATE,
@@ -13,7 +14,7 @@ import {
 } from "@/app/lib/inspection";
 
 type Entry = { mark: Mark; note: string; charge: string };
-type KeyEntry = { issued: string; returned: string; charge: string };
+type KeyEntry = { issued: string; returned: string; charge: string; touched: boolean };
 type Instance = { key: string; name: string; entries: Record<string, Entry> };
 
 const blank = (): Entry => ({ mark: "", note: "", charge: "" });
@@ -36,6 +37,28 @@ const toNum = (s: string) => {
   return Number.isFinite(n) ? n : 0;
 };
 
+// Unreturned devices are (issued - returned) at the replacement cost printed in
+// Lease Section 12. Derived rather than typed, because this is the arithmetic
+// people get wrong under time pressure at a walk-through. Always overridable:
+// Section 38 allows the greater of $50 or actual documented cost, which only
+// the inspector can know.
+function derivedKeyCharge(entry: KeyEntry, unitCost?: number): number | null {
+  if (unitCost == null) return null;
+  const issued = entry.issued.trim();
+  const returned = entry.returned.trim();
+  if (issued === "" && returned === "") return null;
+  const missing = Math.max(0, toNum(issued) - toNum(returned));
+  return missing * unitCost;
+}
+
+const fmtPlain = (n: number) => n.toFixed(2);
+
+/** Local wall-clock "HH:MM" for the <input type="time"> value. */
+function nowTime(): string {
+  const d = new Date();
+  return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+}
+
 const fieldCls =
   "w-full px-3 py-2 rounded border bg-white text-sm outline-none focus:border-[var(--accent-dark)]";
 const fieldStyle = { borderColor: "var(--stone)", color: "var(--text-primary)" };
@@ -57,7 +80,7 @@ export default function MoveOutForm() {
   });
 
   const [keys, setKeys] = useState<Record<string, KeyEntry>>(
-    Object.fromEntries(KEY_SECTION.lines.map((l) => [l.id, { issued: "", returned: "", charge: "" }]))
+    Object.fromEntries(KEY_SECTION.lines.map((l) => [l.id, { issued: "", returned: "", charge: "", touched: false }]))
   );
   const [sections, setSections] = useState<Record<string, Record<string, Entry>>>(
     Object.fromEntries(CONDITION_SECTIONS.map((s) => [s.id, entriesFor(s)]))
@@ -72,6 +95,7 @@ export default function MoveOutForm() {
   const [alterations, setAlterations] = useState({ made: "no", desc: "", approved: "", restored: "", carport: "", removed: "" });
   const [utilities, setUtilities] = useState({ electric: "", gas: "", propane: "" });
   const [cleaningFee, setCleaningFee] = useState("");
+  const [cleaningTouched, setCleaningTouched] = useState(false);
   const [unpaidRent, setUnpaidRent] = useState("");
   const [residentComments, setResidentComments] = useState("");
 
@@ -100,11 +124,29 @@ export default function MoveOutForm() {
   }, [sections, rooms, baths]);
 
   const keyCharges = useMemo(
-    () => Object.values(keys).reduce((sum, k) => sum + toNum(k.charge), 0),
+    () =>
+      KEY_SECTION.lines.reduce((sum, l) => {
+        const k = keys[l.id];
+        return sum + (k.touched ? toNum(k.charge) : derivedKeyCharge(k, l.unitCost) ?? 0);
+      }, 0),
     [keys]
   );
 
-  const cappedCleaning = Math.min(toNum(cleaningFee), CLEANING_FEE_CAP);
+  // Section 7(d) allows a base cleaning fee "if cleaning is required". Any
+  // Cleanliness line marked as damage is that condition, so the cap is offered
+  // as the default — still typed over freely.
+  const cleaningSuggested = useMemo(
+    () =>
+      [...rooms, ...baths].some((inst) => inst.entries["clean"]?.mark === "D") ||
+      Object.values(sections).some((entries) => entries["clean"]?.mark === "D"),
+    [rooms, baths, sections]
+  );
+  const cleaningValue = cleaningTouched
+    ? toNum(cleaningFee)
+    : cleaningSuggested
+      ? CLEANING_FEE_CAP
+      : 0;
+  const cappedCleaning = Math.min(cleaningValue, CLEANING_FEE_CAP);
   const deductions = lineCharges + keyCharges + cappedCleaning + toNum(unpaidRent);
   const refund = DEPOSIT_HELD - deductions;
 
@@ -192,16 +234,15 @@ export default function MoveOutForm() {
 
   return (
     <div className="max-w-5xl mx-auto px-5 py-10">
-      <header className="mb-8">
-        <p className="text-xs uppercase tracking-[0.3em] mb-3" style={{ color: "var(--accent-dark)" }}>
-          The Last Resort Lodge
-        </p>
+      <Brand subtitle="Move-Out Condition Report" />
+      <div className="mb-8">
         <h1 className="text-3xl md:text-4xl mb-3">Move-Out Condition Report</h1>
         <p className="text-sm max-w-2xl" style={{ color: "var(--text-muted)" }}>
           Joint walk-through record and deposit reconciliation, prepared under Sections 7, 11, 12 and
-          38 of the lease between The Last Resort LLC and the Idaho Transportation Department.
+          38 of the lease between The Last Resort Outfitters LLC and the Idaho Transportation
+          Department.
         </p>
-      </header>
+      </div>
 
       <Card title="Inspection details">
         <div className="grid md:grid-cols-3 gap-4">
@@ -210,11 +251,21 @@ export default function MoveOutForm() {
             <input type="date" value={header.inspectionDate} onChange={(e) => setHeader({ ...header, inspectionDate: e.target.value })} className={fieldCls} style={fieldStyle} />
           </div>
           <div>
-            <label className={labelCls} style={labelStyle}>Time started</label>
+            <div className="flex items-baseline justify-between">
+              <label className={labelCls} style={labelStyle}>Time started</label>
+              <button type="button" onClick={() => setHeader({ ...header, timeStarted: nowTime() })} className="text-[10px] uppercase tracking-[0.12em] underline mb-1" style={{ color: "var(--tlr-orange)" }}>
+                Now
+              </button>
+            </div>
             <input type="time" value={header.timeStarted} onChange={(e) => setHeader({ ...header, timeStarted: e.target.value })} className={fieldCls} style={fieldStyle} />
           </div>
           <div>
-            <label className={labelCls} style={labelStyle}>Time completed</label>
+            <div className="flex items-baseline justify-between">
+              <label className={labelCls} style={labelStyle}>Time completed</label>
+              <button type="button" onClick={() => setHeader({ ...header, timeCompleted: nowTime() })} className="text-[10px] uppercase tracking-[0.12em] underline mb-1" style={{ color: "var(--tlr-orange)" }}>
+                Now
+              </button>
+            </div>
             <input type="time" value={header.timeCompleted} onChange={(e) => setHeader({ ...header, timeCompleted: e.target.value })} className={fieldCls} style={fieldStyle} />
           </div>
           <div>
@@ -266,7 +317,32 @@ export default function MoveOutForm() {
               {l.unitCost ? `${money(l.unitCost)} ea` : "—"}
             </div>
             <div className="col-span-2">
-              <input value={keys[l.id].charge} onChange={(e) => setKeys({ ...keys, [l.id]: { ...keys[l.id], charge: e.target.value } })} placeholder="$0.00" inputMode="decimal" className={fieldCls} style={fieldStyle} />
+              <input
+                value={
+                  keys[l.id].touched
+                    ? keys[l.id].charge
+                    : derivedKeyCharge(keys[l.id], l.unitCost) != null
+                      ? fmtPlain(derivedKeyCharge(keys[l.id], l.unitCost)!)
+                      : ""
+                }
+                onChange={(e) => setKeys({ ...keys, [l.id]: { ...keys[l.id], charge: e.target.value, touched: true } })}
+                placeholder="$0.00"
+                inputMode="decimal"
+                className={fieldCls}
+                style={{
+                  ...fieldStyle,
+                  ...(keys[l.id].touched ? {} : { color: "var(--text-muted)", fontStyle: "italic" }),
+                }}
+              />
+              {keys[l.id].touched ? (
+                <button type="button" onClick={() => setKeys({ ...keys, [l.id]: { ...keys[l.id], charge: "", touched: false } })} className="text-[10px] underline mt-1" style={{ color: "var(--tlr-orange)" }}>
+                  use calculated
+                </button>
+              ) : (
+                derivedKeyCharge(keys[l.id], l.unitCost) != null && (
+                  <span className="text-[10px] block mt-1" style={{ color: "var(--text-muted)" }}>calculated</span>
+                )
+              )}
             </div>
           </div>
         ))}
@@ -393,8 +469,25 @@ export default function MoveOutForm() {
         <div className="grid md:grid-cols-2 gap-4 mb-5">
           <div>
             <label className={labelCls} style={labelStyle}>Base cleaning fee — capped at {money(CLEANING_FEE_CAP)}</label>
-            <input value={cleaningFee} onChange={(e) => setCleaningFee(e.target.value)} placeholder="$0.00" inputMode="decimal" className={fieldCls} style={fieldStyle} />
-            {toNum(cleaningFee) > CLEANING_FEE_CAP && (
+            <input
+              value={cleaningTouched ? cleaningFee : cleaningSuggested ? fmtPlain(CLEANING_FEE_CAP) : ""}
+              onChange={(e) => { setCleaningFee(e.target.value); setCleaningTouched(true); }}
+              placeholder="$0.00"
+              inputMode="decimal"
+              className={fieldCls}
+              style={{ ...fieldStyle, ...(cleaningTouched ? {} : { color: "var(--text-muted)", fontStyle: "italic" }) }}
+            />
+            {!cleaningTouched && cleaningSuggested && (
+              <p className="text-xs mt-1" style={{ color: "var(--text-muted)" }}>
+                Suggested because a cleanliness line is marked as damage. Type over it freely.
+              </p>
+            )}
+            {cleaningTouched && (
+              <button type="button" onClick={() => { setCleaningFee(""); setCleaningTouched(false); }} className="text-[10px] underline mt-1" style={{ color: "var(--tlr-orange)" }}>
+                use suggested
+              </button>
+            )}
+            {cleaningTouched && toNum(cleaningFee) > CLEANING_FEE_CAP && (
               <p className="text-xs mt-1" style={{ color: "#a33" }}>
                 Section 7(d) caps this at {money(CLEANING_FEE_CAP)} — {money(CLEANING_FEE_CAP)} will be used.
               </p>
@@ -490,7 +583,7 @@ export default function MoveOutForm() {
           className="px-8 py-3 text-sm tracking-[0.2em] uppercase border transition-all disabled:opacity-40"
           style={
             canSubmit
-              ? { background: "var(--accent-dark)", color: "#fff", borderColor: "var(--accent-dark)" }
+              ? { background: "var(--tlr-orange)", color: "#fff", borderColor: "var(--tlr-orange)" }
               : { background: "#fff", color: "var(--text-muted)", borderColor: "var(--stone)" }
           }
         >
@@ -530,7 +623,7 @@ function MarkRow({
             className="px-2 py-1 text-xs rounded border transition-colors"
             style={
               entry.mark === m.value
-                ? { background: "var(--accent-dark)", color: "#fff", borderColor: "var(--accent-dark)" }
+                ? { background: "var(--tlr-orange)", color: "#fff", borderColor: "var(--tlr-orange)" }
                 : { background: "#fff", color: "var(--text-muted)", borderColor: "var(--stone)" }
             }
           >
@@ -572,7 +665,7 @@ function Card({ title, clause, note, children }: { title: string; clause?: strin
     <section className="rounded-lg border p-5 md:p-6 mb-6 bg-white" style={{ borderColor: "var(--stone)" }}>
       <h2 className="text-xl mb-1">{title}</h2>
       {clause && (
-        <p className="text-xs uppercase tracking-[0.15em] mb-2" style={{ color: "var(--accent-dark)" }}>
+        <p className="text-xs uppercase tracking-[0.15em] mb-2" style={{ color: "var(--tlr-orange)" }}>
           {clause}
         </p>
       )}

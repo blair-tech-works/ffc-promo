@@ -11,6 +11,11 @@
   --stone: #e8e4dd;
   --font-serif: "Playfair Display", "Georgia", serif;
   --font-sans: "Lato", "Helvetica Neue", sans-serif;
+
+  /* The Last Resort Outfitters LLC — brand guide, ceremony, December 2018.
+     Orange is Pantone 021 C, the single accent in the identity. */
+  --tlr-orange: #fe5000;
+  --tlr-ink: #010101;
 }
 
 @theme inline {
@@ -40,4 +45,67 @@ h1, h2, h3, h4 {
 
 .grayscale-tiles {
   filter: grayscale(1) brightness(1.05);
+}
+
+/* ---------------------------------------------------------------------------
+   Signed move-out report, print view.
+
+   On screen the report is a stack of cards so it reads as an app. On paper
+   that chrome is noise and wastes the page, so borders, fills and padding are
+   stripped and the hierarchy is carried by rules and spacing instead. Sections
+   and signature blocks are kept off page boundaries — a signature split across
+   two sheets looks like a different document.
+   --------------------------------------------------------------------------- */
+@media print {
+  @page {
+    margin: 0.55in;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+    color: #000 !important;
+    font-size: 10.5pt;
+    line-height: 1.45;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  /* Cards become plain document sections. */
+  .doc-card {
+    border: 0 !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    margin: 0 0 16pt 0 !important;
+    break-inside: avoid;
+  }
+
+  .doc-card h2 {
+    font-size: 12pt;
+    border-bottom: 0.75pt solid #000;
+    padding-bottom: 3pt;
+    margin-bottom: 7pt;
+  }
+
+  /* Keep a signature and the name under it together. */
+  .doc-sig {
+    break-inside: avoid;
+  }
+
+  .doc-sig img {
+    filter: grayscale(100%) contrast(140%);
+  }
+
+  /* The brand rule is the one place colour earns its keep on paper. */
+  .doc-brand {
+    break-after: avoid;
+  }
+
+  /* Tailwind's print: variants cover the rest; make sure nothing clips. */
+  * {
+    overflow: visible !important;
+  }
 }

@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import PrintButton from "../PrintButton";
+import Brand from "../Brand";
 import { getInspection } from "@/app/lib/storage";
 import { MARKS, type Mark } from "@/app/lib/inspection";
 
@@ -52,11 +53,9 @@ export default async function CompletedReport({ params }: { params: Promise<{ id
 
   return (
     <div className="max-w-4xl mx-auto px-5 py-10 print:py-0">
+      <Brand subtitle="Move-Out Condition Report" />
       <div className="flex justify-between items-start mb-8 print:mb-4">
         <div>
-          <p className="text-xs uppercase tracking-[0.3em] mb-2" style={{ color: "var(--accent-dark)" }}>
-            The Last Resort Lodge
-          </p>
           <h1 className="text-3xl mb-2">Move-Out Condition Report</h1>
           <p className="text-sm" style={{ color: "var(--text-muted)" }}>
             Report {report.id} · signed {signedOn}
@@ -65,7 +64,7 @@ export default async function CompletedReport({ params }: { params: Promise<{ id
         <PrintButton />
       </div>
 
-      <section className="rounded-lg border p-5 mb-6 bg-white" style={{ borderColor: "var(--stone)" }}>
+      <section className="doc-card rounded-lg border p-5 mb-6 bg-white" style={{ borderColor: "var(--stone)" }}>
         <Field label="Property" value={report.property} />
         <Field label="Resident" value={report.tenantName} />
         <Field label="Inspection date" value={report.inspectionDate} />
@@ -77,7 +76,7 @@ export default async function CompletedReport({ params }: { params: Promise<{ id
         <Field label="Photos taken" value={p.header?.photoCount} />
       </section>
 
-      <section className="rounded-lg border p-5 mb-6 bg-white" style={{ borderColor: "var(--stone)" }}>
+      <section className="doc-card rounded-lg border p-5 mb-6 bg-white" style={{ borderColor: "var(--stone)" }}>
         <h2 className="text-xl mb-4">Conditions recorded as damage</h2>
         {damage.length === 0 ? (
           <p className="text-sm" style={{ color: "var(--text-muted)" }}>
@@ -87,7 +86,7 @@ export default async function CompletedReport({ params }: { params: Promise<{ id
           damage.map((d, i) => (
             <div key={i} className="flex justify-between gap-4 py-2 border-b text-sm" style={{ borderColor: "var(--stone)" }}>
               <div>
-                <span style={{ color: "var(--accent-dark)" }}>{d.where}</span> — {d.label}
+                <span style={{ color: "var(--tlr-orange)" }}>{d.where}</span> — {d.label}
                 {d.note && <div style={{ color: "var(--text-muted)" }}>{d.note}</div>}
               </div>
               <div className="tabular-nums whitespace-nowrap">{money(d.charge)}</div>
@@ -97,7 +96,7 @@ export default async function CompletedReport({ params }: { params: Promise<{ id
       </section>
 
       {(p.rooms?.length || p.baths?.length) && (
-        <section className="rounded-lg border p-5 mb-6 bg-white" style={{ borderColor: "var(--stone)" }}>
+        <section className="doc-card rounded-lg border p-5 mb-6 bg-white" style={{ borderColor: "var(--stone)" }}>
           <h2 className="text-xl mb-4">Rooms inspected</h2>
           <div className="flex flex-wrap gap-2 text-sm">
             {[...(p.rooms ?? []), ...(p.baths ?? [])].map((r, i) => {
@@ -120,14 +119,14 @@ export default async function CompletedReport({ params }: { params: Promise<{ id
       )}
 
       {p.alterations?.carport && (
-        <section className="rounded-lg border p-5 mb-6 bg-white" style={{ borderColor: "var(--stone)" }}>
+        <section className="doc-card rounded-lg border p-5 mb-6 bg-white" style={{ borderColor: "var(--stone)" }}>
           <h2 className="text-xl mb-2">Carports and alterations</h2>
           <p className="text-sm whitespace-pre-wrap">{p.alterations.carport}</p>
           {p.alterations.desc && <p className="text-sm mt-2 whitespace-pre-wrap">{p.alterations.desc}</p>}
         </section>
       )}
 
-      <section className="rounded-lg border p-5 mb-6" style={{ borderColor: "var(--stone)", background: "var(--bg-warm)" }}>
+      <section className="doc-card rounded-lg border p-5 mb-6" style={{ borderColor: "var(--stone)", background: "var(--bg-warm)" }}>
         <h2 className="text-xl mb-4">Deposit reconciliation</h2>
         <div className="flex justify-between text-sm py-1">
           <span>Security deposit held</span>
@@ -148,7 +147,7 @@ export default async function CompletedReport({ params }: { params: Promise<{ id
       </section>
 
       {p.residentComments && (
-        <section className="rounded-lg border p-5 mb-6 bg-white" style={{ borderColor: "var(--stone)" }}>
+        <section className="doc-card rounded-lg border p-5 mb-6 bg-white" style={{ borderColor: "var(--stone)" }}>
           <h2 className="text-xl mb-2">Resident statement</h2>
           <p className="text-sm whitespace-pre-wrap">{p.residentComments}</p>
           <p className="text-xs mt-3" style={{ color: "var(--text-muted)" }}>
@@ -157,14 +156,14 @@ export default async function CompletedReport({ params }: { params: Promise<{ id
         </section>
       )}
 
-      <section className="rounded-lg border p-5 bg-white" style={{ borderColor: "var(--stone)" }}>
+      <section className="doc-card rounded-lg border p-5 bg-white" style={{ borderColor: "var(--stone)" }}>
         <h2 className="text-xl mb-5">Signatures</h2>
         <div className="grid md:grid-cols-2 gap-8">
           {[
             { role: "Owner / Agent", name: report.ownerName, title: report.ownerTitle, sig: report.ownerSignature },
             { role: "Resident — Idaho Transportation Department", name: report.residentName, title: report.residentTitle, sig: report.residentSignature },
           ].map((s) => (
-            <div key={s.role}>
+            <div key={s.role} className="doc-sig">
               <p className="text-xs uppercase tracking-[0.12em] mb-2" style={{ color: "var(--text-muted)" }}>
                 {s.role}
               </p>
