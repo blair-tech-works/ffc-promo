@@ -432,7 +432,7 @@ export default function MoveOutForm() {
         </div>
       </Card>
 
-      <Card title="Utilities and final meter readings" clause="Lease Section 4" note="Resident is responsible for electric and gas, billed by The Last Resort LLC with original bills attached.">
+      <CollapsibleCard title="Utilities and final meter readings" clause="Lease Section 4" note="Resident is responsible for electric and gas, billed by The Last Resort LLC with original bills attached.">
         <div className="grid md:grid-cols-3 gap-4">
           <div>
             <label className={labelCls} style={labelStyle}>Electric final reading</label>
@@ -447,9 +447,9 @@ export default function MoveOutForm() {
             <input value={utilities.propane} onChange={(e) => setUtilities({ ...utilities, propane: e.target.value })} className={fieldCls} style={fieldStyle} />
           </div>
         </div>
-      </Card>
+      </CollapsibleCard>
 
-      <Card title="Deposit reconciliation" clause="Lease Section 7">
+      <CollapsibleCard title="Deposit reconciliation" clause="Lease Section 7">
         {damageLines.length > 0 && (
           <div className="mb-5">
             <p className="text-xs uppercase tracking-[0.15em] mb-2" style={{ color: "var(--text-muted)" }}>
@@ -534,7 +534,7 @@ export default function MoveOutForm() {
           <strong>30 days</strong> of termination and delivery of possession. Tenancy ends 2 November
           2026, so the statement and refund are due by <strong>2 December 2026</strong>.
         </p>
-      </Card>
+      </CollapsibleCard>
 
       <Card title="Resident statement" note="Signing does not waive the Resident's right to dispute a charge.">
         <textarea value={residentComments} onChange={(e) => setResidentComments(e.target.value)} rows={4} placeholder="Resident comments" className={fieldCls} style={fieldStyle} />
@@ -657,6 +657,71 @@ function MarkRow({
         )}
       </div>
     </div>
+  );
+}
+
+function CollapsibleCard({
+  title,
+  clause,
+  note,
+  children,
+}: {
+  title: string;
+  clause?: string;
+  note?: string;
+  children: React.ReactNode;
+}) {
+  const [open, setOpen] = useState(false);
+
+  // Collapsed state carries no visible label on purpose: the heading itself
+  // ("Deposit reconciliation") is the thing not worth advertising mid-inspection.
+  // The control still names itself to assistive tech.
+  if (!open) {
+    return (
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        aria-expanded={false}
+        aria-label={`Expand ${title}`}
+        className="w-full mb-6 rounded-lg border bg-white py-3 flex items-center justify-center gap-2 transition-colors hover:bg-[var(--bg-warm)]"
+        style={{ borderColor: "var(--stone)" }}
+      >
+        <span aria-hidden className="text-lg leading-none" style={{ color: "var(--tlr-orange)" }}>
+          &#8964;
+        </span>
+      </button>
+    );
+  }
+
+  return (
+    <section className="rounded-lg border p-5 md:p-6 mb-6 bg-white" style={{ borderColor: "var(--stone)" }}>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h2 className="text-xl mb-1">{title}</h2>
+          {clause && (
+            <p className="text-xs uppercase tracking-[0.15em] mb-2" style={{ color: "var(--tlr-orange)" }}>
+              {clause}
+            </p>
+          )}
+        </div>
+        <button
+          type="button"
+          onClick={() => setOpen(false)}
+          aria-expanded
+          aria-label={`Collapse ${title}`}
+          className="text-lg leading-none px-2"
+          style={{ color: "var(--tlr-orange)" }}
+        >
+          &#8963;
+        </button>
+      </div>
+      {note && (
+        <p className="text-sm mb-4" style={{ color: "var(--text-muted)" }}>
+          {note}
+        </p>
+      )}
+      {children}
+    </section>
   );
 }
 
